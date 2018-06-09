@@ -1,5 +1,7 @@
 import 'package:abc/alphabet_slider.dart';
+import 'package:abc/model/letter_data.dart';
 import 'package:abc/upper_alphabet.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:rxdart/subjects.dart';
@@ -26,7 +28,17 @@ class _MyHomePageState extends State<MyHomePage> implements LetterChanged {
       ),
       body: OrientationBuilder(
         builder: (context, orientation) {
-          return getOrientedWidget(orientation == Orientation.portrait);
+          return StreamBuilder(
+              stream: Firestore.instance.collection('letters').snapshots(),
+              builder: (_, AsyncSnapshot<QuerySnapshot> snapshot) {
+                var documents = snapshot.data?.documents ?? [];
+                var letters = documents
+                    .map((snapshot) => LetterData.from(snapshot))
+                    .toList();
+                letters.sort((a, b) => a.letter.compareTo(b.letter));
+                return getOrientedWidget(
+                    orientation == Orientation.portrait, letters);
+              });
         },
       ),
     );
@@ -37,23 +49,17 @@ class _MyHomePageState extends State<MyHomePage> implements LetterChanged {
     _positionSubject.add(letterIndex);
   }
 
-  Widget getOrientedWidget(bool isPortrait) {
+  Widget getOrientedWidget(bool isPortrait, List<LetterData> letters) {
+    var upperAlphabet = UpperAlphabet(this, isPortrait, letters);
+    var slider = Expanded(
+      child: AlphabetSlider(_positionSubject, letters),
+    );
     return isPortrait
         ? Column(
-            children: <Widget>[
-              UpperAlphabet(this, isPortrait),
-              Expanded(
-                child: AlphabetSlider(_positionSubject),
-              )
-            ],
+            children: <Widget>[upperAlphabet, slider],
           )
         : Row(
-      children: <Widget>[
-        UpperAlphabet(this, isPortrait),
-        Expanded(
-          child: AlphabetSlider(_positionSubject),
-        )
-      ],
-    );
+            children: <Widget>[upperAlphabet, slider],
+          );
   }
 }

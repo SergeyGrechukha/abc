@@ -1,12 +1,12 @@
 import 'package:abc/model/letter_data.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class UpperAlphabet extends StatelessWidget {
   final LetterChanged _onLetterChanged;
   final bool _isPortrait;
+  final List<LetterData> letters;
 
-  UpperAlphabet(this._onLetterChanged, this._isPortrait);
+  UpperAlphabet(this._onLetterChanged, this._isPortrait, this.letters);
 
   @override
   Widget build(BuildContext context) {
@@ -37,19 +37,11 @@ class UpperAlphabet extends StatelessWidget {
   }
 
   Widget builtAlphabet(BuildContext context) {
-    return StreamBuilder(
-        stream: Firestore.instance.collection('letters').snapshots(),
-        builder: (_, AsyncSnapshot<QuerySnapshot> snapshot) {
-          var documents = snapshot.data?.documents ?? [];
-          var letters =
-              documents.map((snapshot) => LetterData.from(snapshot)).toList();
-          letters.sort((a, b) => a.letter.compareTo(b.letter));
-          List<Widget> letterWidgets = new List();
-          for (int i = 0; i < letters.length; i++) {
-            letterWidgets.add(buildLetterGridTile(letters.elementAt(i), i));
-          }
-          return buildContainer(context, letterWidgets);
-        });
+    List<Widget> letterWidgets = new List();
+    for (int i = 0; i < letters.length; i++) {
+      letterWidgets.add(buildLetterGridTile(letters.elementAt(i), i));
+    }
+    return buildContainer(context, letterWidgets);
   }
 
   Container buildContainer(BuildContext context, List<Widget> letters) {
