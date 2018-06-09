@@ -52,7 +52,7 @@ class _MyHomePageState extends State<MyHomePage> implements LetterChanged {
   Widget getOrientedWidget(bool isPortrait, List<LetterData> letters) {
     var upperAlphabet = UpperAlphabet(this, isPortrait, letters);
     var slider = Expanded(
-      child: AlphabetSlider(_positionSubject, letters),
+      child: AlphabetSlider(_positionSubject, isPortrait, letters),
     );
     return isPortrait
         ? Column(

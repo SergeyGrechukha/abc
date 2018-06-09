@@ -56,8 +56,10 @@ class CoverFlowState extends State<CoverFlow> {
   bool _pageHasChanged = false;
 
   scrollToPosition(int position) {
-    controller.animateToPage(position,
-        duration: Duration(milliseconds: 350), curve: Curves.decelerate);
+    if (controller != null) {
+      controller.animateToPage(position,
+          duration: Duration(milliseconds: 350), curve: Curves.decelerate);
+    }
   }
 
   @override
