@@ -1,0 +1,155 @@
+{
+  "project_info": {
+    "project_number": "668176742537",
+    "firebase_url": "https://project-6446687011276962806.firebaseio.com",
+    "project_id": "project-6446687011276962806",
+    "storage_bucket": "project-6446687011276962806.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:668176742537:android:58dc0e85d26d53f2",
+        "android_client_info": {
+          "package_name": "com.valhala.abc"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "668176742537-iu32d8vsn760ks27vrvhqaqqogifc5og.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.valhala.abc",
+            "certificate_hash": "f55000e60a0af06108cbd81b66d09177fcf9281c"
+          }
+        },
+        {
+          "client_id": "668176742537-opqv1h49fp0nfbovj7m9fu9bjgosdhne.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "668176742537-opqv1h49fp0nfbovj7m9fu9bjgosdhne.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBAlmM9Ev7bLIabGdQe71nbKFFBxRQQLZI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "668176742537-opqv1h49fp0nfbovj7m9fu9bjgosdhne.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:668176742537:android:d73c0888b2e76022",
+        "android_client_info": {
+          "package_name": "com.valhala.myapplication"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "668176742537-e24m6spkgdkecflsthv2uajbip4qp1cj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.valhala.myapplication",
+            "certificate_hash": "936026cf03f0aedffd6f43f8500440d46b0605f8"
+          }
+        },
+        {
+          "client_id": "668176742537-opqv1h49fp0nfbovj7m9fu9bjgosdhne.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "668176742537-opqv1h49fp0nfbovj7m9fu9bjgosdhne.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBAlmM9Ev7bLIabGdQe71nbKFFBxRQQLZI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "668176742537-opqv1h49fp0nfbovj7m9fu9bjgosdhne.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:668176742537:android:e15a6f3ed0abbf75",
+        "android_client_info": {
+          "package_name": "com.valhala.rid"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "668176742537-eq2ro9feluc87988ebqnnfiukjhlktk8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.valhala.rid",
+            "certificate_hash": "936026cf03f0aedffd6f43f8500440d46b0605f8"
+          }
+        },
+        {
+          "client_id": "668176742537-opqv1h49fp0nfbovj7m9fu9bjgosdhne.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "668176742537-opqv1h49fp0nfbovj7m9fu9bjgosdhne.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBAlmM9Ev7bLIabGdQe71nbKFFBxRQQLZI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "668176742537-opqv1h49fp0nfbovj7m9fu9bjgosdhne.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
