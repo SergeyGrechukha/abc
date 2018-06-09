@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 class UpperAlphabet extends StatelessWidget {
 
   final LetterChanged _onLetterChanged;
+  final bool _isPortrait;
 
-  UpperAlphabet(this._onLetterChanged);
+  UpperAlphabet(this._onLetterChanged, this._isPortrait);
 
   @override
   Widget build(BuildContext context) {
@@ -32,21 +33,25 @@ class UpperAlphabet extends StatelessWidget {
     }
 
     return Container(
-      constraints: BoxConstraints(
-        minWidth: MediaQuery.of(context).size.width,
-        maxWidth: MediaQuery.of(context).size.width,
-        maxHeight: MediaQuery.of(context).size.height * 0.21,
-        minHeight: MediaQuery.of(context).size.height * 0.21,
-      ),
+      constraints: buildBoxConstraints(context, _isPortrait),
       child: Center(
         child: GridView.count(
           primary: false,
           padding: const EdgeInsets.all(10.0),
           crossAxisSpacing: 3.0,
-          crossAxisCount: 9,
+          crossAxisCount: _isPortrait ? 9 : 3,
           children: letters,
         ),
       ),
+    );
+  }
+
+  BoxConstraints buildBoxConstraints(BuildContext context, bool isPortrait) {
+    return BoxConstraints(
+      minWidth: MediaQuery.of(context).size.width * (isPortrait ? 1 : 0.21),
+      maxWidth: MediaQuery.of(context).size.width * (isPortrait ? 1 : 0.21),
+      maxHeight: MediaQuery.of(context).size.height * (!isPortrait ? 1 : 0.21),
+      minHeight: MediaQuery.of(context).size.height * (!isPortrait ? 1 : 0.21),
     );
   }
 

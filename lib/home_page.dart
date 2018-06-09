@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:rxdart/subjects.dart';
 
 class MyHomePage extends StatefulWidget {
-
   MyHomePage({Key key, this.title}) : super(key: key);
 
   final String title;
@@ -25,13 +24,10 @@ class _MyHomePageState extends State<MyHomePage> implements LetterChanged {
           child: new Text(widget.title),
         ),
       ),
-      body: Column(
-        children: <Widget>[
-          UpperAlphabet(this),
-          Expanded(
-            child: AlphabetSlider(_positionSubject),
-          )
-        ],
+      body: OrientationBuilder(
+        builder: (context, orientation) {
+          return getOrientedWidget(orientation == Orientation.portrait);
+        },
       ),
     );
   }
@@ -39,5 +35,25 @@ class _MyHomePageState extends State<MyHomePage> implements LetterChanged {
   @override
   void onLetterChanged(int letterIndex) {
     _positionSubject.add(letterIndex);
+  }
+
+  Widget getOrientedWidget(bool isPortrait) {
+    return isPortrait
+        ? Column(
+            children: <Widget>[
+              UpperAlphabet(this, isPortrait),
+              Expanded(
+                child: AlphabetSlider(_positionSubject),
+              )
+            ],
+          )
+        : Row(
+      children: <Widget>[
+        UpperAlphabet(this, isPortrait),
+        Expanded(
+          child: AlphabetSlider(_positionSubject),
+        )
+      ],
+    );
   }
 }
