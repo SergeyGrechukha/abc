@@ -21,14 +21,11 @@ class UpperAlphabet extends StatelessWidget {
         enableFeedback: true,
         splashColor: Colors.amber,
         child: Container(
-          decoration: new BoxDecoration(
-            border: new Border.all(
-              color: Colors.blue,
-              width: 1.0,
-            ),
-          ),
           child: Center(
-            child: Text(letter.letter),
+            child: Text(
+              letter.letter.toUpperCase(),
+              style: TextStyle(color: Colors.white),
+            ),
           ),
         ),
         onTap: () => _onTileClicked(index),
@@ -52,6 +49,7 @@ class UpperAlphabet extends StatelessWidget {
           primary: false,
           padding: const EdgeInsets.all(10.0),
           crossAxisSpacing: 3.0,
+          mainAxisSpacing: 3.0,
           crossAxisCount: _isPortrait ? 9 : 3,
           children: letters,
         ),
@@ -78,4 +76,5 @@ class UpperAlphabet extends StatelessWidget {
 
 abstract class LetterChanged {
   void onLetterChanged(int letterIndex);
+  void onSwiped(int letterIndex);
 }

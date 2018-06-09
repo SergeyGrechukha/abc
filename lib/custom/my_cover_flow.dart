@@ -1,3 +1,4 @@
+import 'package:abc/upper_alphabet.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 
@@ -38,11 +39,12 @@ class CoverFlow extends StatefulWidget {
   /// cards one the user scrolls past the last one.
   final int itemCount;
 
-  static CoverFlowState of(BuildContext context) => context.ancestorStateOfType(const TypeMatcher<CoverFlowState>());
+  final LetterChanged swipeListener;
+
 
   CoverFlow({@required this.itemBuilder, this.dismissibleItems: true,
     this.dismissedCallback, this.viewportFraction: .85, this.height: 525,
-    this.width: 700, this.itemCount: 0}) : assert(itemBuilder != null);
+    this.width: 700, this.itemCount: 0, this.swipeListener}) : assert(itemBuilder != null);
 
   final CoverFlowState state = new CoverFlowState();
 
@@ -78,6 +80,7 @@ class CoverFlowState extends State<CoverFlow> {
   Widget build(BuildContext context) {
     return new PageView.builder(
         onPageChanged: (value) {
+          widget.swipeListener.onSwiped(value);
           setState(() {
             _pageHasChanged = true;
             currentPage = value;

@@ -17,11 +17,15 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> implements LetterChanged {
   final _positionSubject = BehaviorSubject<int>();
+  static const Color DEFAULT_COLOR = Colors.blue;
+  List<LetterData> letters;
+  Color _appBarColor = DEFAULT_COLOR;
 
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: new AppBar(
+        backgroundColor: _appBarColor,
         title: Center(
           child: new Text(widget.title),
         ),
@@ -32,7 +36,7 @@ class _MyHomePageState extends State<MyHomePage> implements LetterChanged {
               stream: Firestore.instance.collection('letters').snapshots(),
               builder: (_, AsyncSnapshot<QuerySnapshot> snapshot) {
                 var documents = snapshot.data?.documents ?? [];
-                var letters = documents
+                letters = documents
                     .map((snapshot) => LetterData.from(snapshot))
                     .toList();
                 letters.sort((a, b) => a.letter.compareTo(b.letter));
@@ -47,19 +51,39 @@ class _MyHomePageState extends State<MyHomePage> implements LetterChanged {
   @override
   void onLetterChanged(int letterIndex) {
     _positionSubject.add(letterIndex);
+    _updateColor(letterIndex);
   }
+
+  void _updateColor(int letterIndex) {
+    setState(() {
+      _appBarColor = letters != null && letters.isNotEmpty
+          ? letters[letterIndex].color
+          : DEFAULT_COLOR;
+    });
+  }
+
+  @override
+  void onSwiped(int letterIndex) {
+    _updateColor(letterIndex);
+  }
+
 
   Widget getOrientedWidget(bool isPortrait, List<LetterData> letters) {
     var upperAlphabet = UpperAlphabet(this, isPortrait, letters);
     var slider = Expanded(
-      child: AlphabetSlider(_positionSubject, isPortrait, letters),
+      child: AlphabetSlider(_positionSubject, isPortrait, letters, this),
     );
     return isPortrait
-        ? Column(
-            children: <Widget>[upperAlphabet, slider],
+        ? Container(
+            margin: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 10.0),
+            child: Column(
+              children: <Widget>[upperAlphabet, slider],
+            ),
           )
         : Row(
             children: <Widget>[upperAlphabet, slider],
           );
   }
+
+
 }

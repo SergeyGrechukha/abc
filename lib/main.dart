@@ -2,7 +2,6 @@ import 'package:abc/home_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-
 void main() async {
   FirebaseUser user = await FirebaseAuth.instance.signInAnonymously();
   runApp(new MyApp());
@@ -14,6 +13,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return new MaterialApp(
       title: 'Alphabet',
+      debugShowCheckedModeBanner: false,
       theme: new ThemeData(
         // This is the theme of your application.
         //
