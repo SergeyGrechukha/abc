@@ -8,7 +8,7 @@ class AlphabetSlider extends StatelessWidget {
 
   final BehaviorSubject positionSubject;
 
-  AlphabetSlider(this.positionSubject); //  CoverFlow flow;
+  AlphabetSlider(this.positionSubject);
 
   @override
   Widget build(BuildContext context) {

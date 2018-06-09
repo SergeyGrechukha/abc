@@ -1,7 +1,8 @@
+import 'package:abc/model/letter_data.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class UpperAlphabet extends StatelessWidget {
-
   final LetterChanged _onLetterChanged;
   final bool _isPortrait;
 
@@ -9,12 +10,14 @@ class UpperAlphabet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    int charA = 'a'.codeUnitAt(0);
-    const int ALPHABET_LENGTH = 26;
-    List<Widget> letters = new List();
-    for (int i = 0; i < ALPHABET_LENGTH; i++) {
-      letters.add(new GridTile(
-          child: new InkWell(
+    return builtAlphabet(context);
+  }
+
+  GridTile buildLetterGridTile(LetterData letter, int index) {
+    return new GridTile(
+        child: new Material(
+      color: letter.color,
+      child: new InkWell(
         enableFeedback: true,
         splashColor: Colors.amber,
         child: Container(
@@ -25,13 +28,31 @@ class UpperAlphabet extends StatelessWidget {
             ),
           ),
           child: Center(
-            child: Text(new String.fromCharCode(charA + i)),
+            child: Text(letter.letter),
           ),
         ),
-        onTap: () => _onTileClicked(i),
-      )));
-    }
+        onTap: () => _onTileClicked(index),
+      ),
+    ));
+  }
 
+  Widget builtAlphabet(BuildContext context) {
+    return StreamBuilder(
+        stream: Firestore.instance.collection('letters').snapshots(),
+        builder: (_, AsyncSnapshot<QuerySnapshot> snapshot) {
+          var documents = snapshot.data?.documents ?? [];
+          var letters =
+              documents.map((snapshot) => LetterData.from(snapshot)).toList();
+          letters.sort((a, b) => a.letter.compareTo(b.letter));
+          List<Widget> letterWidgets = new List();
+          for (int i = 0; i < letters.length; i++) {
+            letterWidgets.add(buildLetterGridTile(letters.elementAt(i), i));
+          }
+          return buildContainer(context, letterWidgets);
+        });
+  }
+
+  Container buildContainer(BuildContext context, List<Widget> letters) {
     return Container(
       constraints: buildBoxConstraints(context, _isPortrait),
       child: Center(
@@ -63,6 +84,6 @@ class UpperAlphabet extends StatelessWidget {
   }
 }
 
-abstract class LetterChanged{
+abstract class LetterChanged {
   void onLetterChanged(int letterIndex);
 }
