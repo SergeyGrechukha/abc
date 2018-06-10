@@ -1,7 +1,7 @@
-import 'package:abc/alphabet_slider.dart';
+import 'package:abc/widgets/alphabet_slider.dart';
 import 'package:abc/model/data_classes/letter_data.dart';
 import 'package:abc/model/firebase_repository.dart';
-import 'package:abc/upper_alphabet.dart';
+import 'package:abc/widgets/upper_alphabet.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:rxdart/subjects.dart';
@@ -67,7 +67,7 @@ class _MyHomePageState extends State<MyHomePage> implements LetterChanged {
   }
 
   Widget getOrientedWidget(bool isPortrait, List<LetterData> letters) {
-    var upperAlphabet = UpperAlphabet(this, isPortrait, letters);
+    var upperAlphabet = UpperAlphabet(isPortrait, MediaQuery.of(context).size, letters, this);
     var slider = Expanded(
       child: AlphabetSlider(_positionSubject, isPortrait, letters, this.currentPage, this),
     );

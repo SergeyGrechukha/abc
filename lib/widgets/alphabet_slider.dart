@@ -1,6 +1,6 @@
 import 'package:abc/model/data_classes/letter_data.dart';
 import 'package:abc/custom/my_cover_flow.dart';
-import 'package:abc/upper_alphabet.dart';
+import 'package:abc/widgets/upper_alphabet.dart';
 import 'package:flutter/material.dart';
 import 'package:rxdart/subjects.dart';
 import 'package:tts/tts.dart';
