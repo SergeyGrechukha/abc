@@ -13,10 +13,10 @@ class LetterData {
 
   factory LetterData.from(DocumentSnapshot document) {
     return new LetterData(document.data['letter'], document.data['url'],
-        document.data['word'], Color(_hexToInt(document.data['color'])));
+        document.data['word'], Color(hexToInt(document.data['color'])));
   }
 
-  static int _hexToInt(String hex) {
+  static int hexToInt(String hex) {
     if (hex == null || hex.isEmpty) {
       print('no color value');
       return 0xFFFFFF;

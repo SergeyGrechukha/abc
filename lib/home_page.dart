@@ -18,7 +18,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> implements LetterChanged {
   final _positionSubject = BehaviorSubject<int>();
-  static const Color DEFAULT_COLOR = Colors.blue;
+  static const Color DEFAULT_COLOR = Color(0xffc83f3f);
   List<LetterData> letters;
   Color _appBarColor = DEFAULT_COLOR;
   int currentPage = 0;
