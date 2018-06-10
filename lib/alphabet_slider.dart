@@ -1,4 +1,4 @@
-import 'package:abc/model/letter_data.dart';
+import 'package:abc/model/data_classes/letter_data.dart';
 import 'package:abc/custom/my_cover_flow.dart';
 import 'package:abc/upper_alphabet.dart';
 import 'package:flutter/material.dart';
@@ -10,12 +10,14 @@ class AlphabetSlider extends StatelessWidget {
   final List<LetterData> letters;
   final bool isPortrait;
   final LetterChanged swipeListener;
+  final int initialPositionIndex;
 
-  AlphabetSlider(this.positionSubject, this.isPortrait, this.letters, this.swipeListener);
+  AlphabetSlider(this.positionSubject, this.isPortrait, this.letters, this.initialPositionIndex, this.swipeListener);
 
   @override
   Widget build(BuildContext context) {
     var coverFlow = CoverFlow(
+      initialPositionIndex: initialPositionIndex,
       viewportFraction: .8,
       dismissibleItems: false,
       itemCount: letters.length,

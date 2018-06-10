@@ -3,13 +3,11 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 
 /// Function that is called when a widget has been dismissed
-typedef void OnDismissedCallback(
-    int dismissedItem, DismissDirection direction);
+typedef void OnDismissedCallback(int dismissedItem, DismissDirection direction);
 
 /// Widget that animates scanning through a list of other widgets, like
 /// the iOS Cover Flow animation.
 class CoverFlow extends StatefulWidget {
-
   /// Called to build a widget that will be animated to loop through.
   final IndexedWidgetBuilder itemBuilder;
 
@@ -41,10 +39,19 @@ class CoverFlow extends StatefulWidget {
 
   final LetterChanged swipeListener;
 
+  final int initialPositionIndex;
 
-  CoverFlow({@required this.itemBuilder, this.dismissibleItems: true,
-    this.dismissedCallback, this.viewportFraction: .85, this.height: 525,
-    this.width: 700, this.itemCount: 0, this.swipeListener}) : assert(itemBuilder != null);
+  CoverFlow(
+      {@required this.itemBuilder,
+      this.dismissibleItems: true,
+      this.dismissedCallback,
+      this.viewportFraction: .85,
+      this.height: 525,
+      this.width: 700,
+      this.itemCount: 0,
+      this.initialPositionIndex: 0,
+      this.swipeListener})
+      : assert(itemBuilder != null);
 
   final CoverFlowState state = new CoverFlowState();
 

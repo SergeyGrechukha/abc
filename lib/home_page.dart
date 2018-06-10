@@ -1,7 +1,7 @@
 import 'package:abc/alphabet_slider.dart';
-import 'package:abc/model/letter_data.dart';
+import 'package:abc/model/data_classes/letter_data.dart';
+import 'package:abc/model/firebase_repository.dart';
 import 'package:abc/upper_alphabet.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:rxdart/subjects.dart';
@@ -10,6 +10,7 @@ class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
 
   final String title;
+  final FireBaseRepository _fireBaseRepository = new FireBaseRepository();
 
   @override
   _MyHomePageState createState() => new _MyHomePageState();
@@ -20,6 +21,7 @@ class _MyHomePageState extends State<MyHomePage> implements LetterChanged {
   static const Color DEFAULT_COLOR = Colors.blue;
   List<LetterData> letters;
   Color _appBarColor = DEFAULT_COLOR;
+  int currentPage = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -33,13 +35,9 @@ class _MyHomePageState extends State<MyHomePage> implements LetterChanged {
       body: OrientationBuilder(
         builder: (context, orientation) {
           return StreamBuilder(
-              stream: Firestore.instance.collection('letters').snapshots(),
-              builder: (_, AsyncSnapshot<QuerySnapshot> snapshot) {
-                var documents = snapshot.data?.documents ?? [];
-                letters = documents
-                    .map((snapshot) => LetterData.from(snapshot))
-                    .toList();
-                letters.sort((a, b) => a.letter.compareTo(b.letter));
+              stream: widget._fireBaseRepository.getLettersStream(),
+              builder: (_, AsyncSnapshot<List<LetterData>> snapshot) {
+                letters = snapshot.data ?? [];
                 return getOrientedWidget(
                     orientation == Orientation.portrait, letters);
               });
@@ -55,6 +53,7 @@ class _MyHomePageState extends State<MyHomePage> implements LetterChanged {
   }
 
   void _updateColor(int letterIndex) {
+    this.currentPage = letterIndex;
     setState(() {
       _appBarColor = letters != null && letters.isNotEmpty
           ? letters[letterIndex].color
@@ -67,11 +66,10 @@ class _MyHomePageState extends State<MyHomePage> implements LetterChanged {
     _updateColor(letterIndex);
   }
 
-
   Widget getOrientedWidget(bool isPortrait, List<LetterData> letters) {
     var upperAlphabet = UpperAlphabet(this, isPortrait, letters);
     var slider = Expanded(
-      child: AlphabetSlider(_positionSubject, isPortrait, letters, this),
+      child: AlphabetSlider(_positionSubject, isPortrait, letters, this.currentPage, this),
     );
     return isPortrait
         ? Container(
@@ -84,6 +82,4 @@ class _MyHomePageState extends State<MyHomePage> implements LetterChanged {
             children: <Widget>[upperAlphabet, slider],
           );
   }
-
-
 }

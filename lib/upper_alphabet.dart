@@ -1,4 +1,4 @@
-import 'package:abc/model/letter_data.dart';
+import 'package:abc/model/data_classes/letter_data.dart';
 import 'package:flutter/material.dart';
 
 class UpperAlphabet extends StatelessWidget {
