@@ -1,9 +1,12 @@
+import 'package:abc/model/firebase_repository.dart';
 import 'package:abc/pages/home_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:abc/model/current_letter_state.dart';
 
 void main() async {
-  FirebaseUser user = await FirebaseAuth.instance.signInAnonymously();
+  var user =
+      await FirebaseAuth.instance.signInAnonymously();
   runApp(new MyApp());
 }
 

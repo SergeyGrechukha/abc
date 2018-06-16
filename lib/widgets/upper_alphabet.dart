@@ -1,14 +1,13 @@
 import 'package:abc/model/data_classes/letter_data.dart';
+import 'package:abc/view_model/upper_alphabet_view_model.dart';
 import 'package:flutter/material.dart';
 
 class UpperAlphabet extends StatelessWidget {
-  static const ALPHABET_GRID_ID = 'alphabet_grib';
-  final LetterChanged _onLetterChanged;
-  final bool _isPortrait;
-  final List<LetterData> _letters;
-  final Size _size;
 
-  UpperAlphabet(this._isPortrait, this._size, this._letters, this._onLetterChanged);
+  static const ALPHABET_GRID_ID = 'alphabet_grib';
+  final UpperAlphabetViewModel _viewModel;
+
+  UpperAlphabet(this._viewModel);
 
   @override
   Widget build(BuildContext context) {
@@ -18,34 +17,40 @@ class UpperAlphabet extends StatelessWidget {
   GridTile buildLetterGridTile(LetterData letter, int index) {
     return GridTile(
         child: Material(
-          color: letter.color,
-          child: InkWell(
-            enableFeedback: true,
-            splashColor: Colors.amber,
-            child: Container(
-              child: Center(
-                child: Text(
-                  letter.letter.toUpperCase(),
-                  style: TextStyle(color: Colors.white),
-                ),
-              ),
+      color: letter.color,
+      child: InkWell(
+        enableFeedback: true,
+        splashColor: Colors.amber,
+        child: Container(
+          child: Center(
+            child: Text(
+              letter.letter.toUpperCase(),
+              style: TextStyle(color: Colors.white),
             ),
-            onTap: () => _onTileClicked(index),
           ),
-        ));
+        ),
+        onTap: () => _onTileClicked(index),
+      ),
+    ));
   }
 
   Widget builtAlphabet(BuildContext context) {
-    List<Widget> letterWidgets = new List();
-    for (int i = 0; i < _letters.length; i++) {
-      letterWidgets.add(buildLetterGridTile(_letters.elementAt(i), i));
-    }
-    return buildContainer(context, letterWidgets);
+    return StreamBuilder(
+        stream: _viewModel.letterDataSubject.stream,
+        initialData: _viewModel.letterDataSubject.value ?? [],
+        builder: (_, AsyncSnapshot<List<LetterData>> data) {
+          var _letters = data.data ?? [];
+          List<Widget> letterWidgets = new List();
+          for (int i = 0; i < _letters.length; i++) {
+            letterWidgets.add(buildLetterGridTile(_letters.elementAt(i), i));
+          }
+          return buildContainer(context, letterWidgets);
+        });
   }
 
   Container buildContainer(BuildContext context, List<Widget> letters) {
     return Container(
-      constraints: buildBoxConstraints(context, _isPortrait),
+      constraints: buildBoxConstraints(context, _viewModel.isPortrait()),
       child: Center(
         child: GridView.count(
           key: Key(ALPHABET_GRID_ID),
@@ -53,7 +58,7 @@ class UpperAlphabet extends StatelessWidget {
           padding: const EdgeInsets.all(10.0),
           crossAxisSpacing: 3.0,
           mainAxisSpacing: 3.0,
-          crossAxisCount: _isPortrait ? 9 : 3,
+          crossAxisCount: _viewModel.isPortrait() ? 9 : 3,
           children: letters,
         ),
       ),
@@ -62,23 +67,14 @@ class UpperAlphabet extends StatelessWidget {
 
   BoxConstraints buildBoxConstraints(BuildContext context, bool isPortrait) {
     return BoxConstraints(
-      minWidth: this._size.width * (isPortrait ? 1 : 0.21),
-      maxWidth: this._size.width * (isPortrait ? 1 : 0.21),
-      maxHeight: this._size.height * (!isPortrait ? 1 : 0.21),
-      minHeight: this._size.height * (!isPortrait ? 1 : 0.21),
+      minWidth: this._viewModel.size().width * (isPortrait ? 1 : 0.21),
+      maxWidth: this._viewModel.size().width * (isPortrait ? 1 : 0.21),
+      maxHeight: this._viewModel.size().height * (!isPortrait ? 1 : 0.21),
+      minHeight: this._viewModel.size().height * (!isPortrait ? 1 : 0.21),
     );
   }
 
   _onTileClicked(int i) {
-    if (_onLetterChanged != null) {
-      _onLetterChanged.onLetterChanged(i);
-    }
-    print('Letter index = $i');
+    _viewModel.onNewLetterClicked(i);
   }
-}
-
-abstract class LetterChanged {
-  void onLetterChanged(int letterIndex);
-
-  void onSwiped(int letterIndex);
 }

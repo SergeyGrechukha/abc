@@ -7,7 +7,7 @@ class LetterData {
   String imageUrl;
   String word;
   Color color;
-  static final String defaultImageUrl = 'default.png';
+  static final String defaultImageUrl = 'assets/images/default.png';
 
   LetterData(this.letter, this.imageUrl, this.word, this.color);
 
