@@ -17,7 +17,7 @@ class HomePageViewModel extends BaseFireBaseViewModel {
     Observable
         .combineLatest2(
             letterDataSubject,
-            _currentState.swipeLetterSubject.throttle(Duration(milliseconds: 350)),
+            _currentState.swipeLetterSubject,
             (letters, index) => letters[index].color)
         .forEach((color) => _colorSubject.add(color));
   }

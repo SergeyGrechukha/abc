@@ -2,7 +2,7 @@ import 'package:abc/custom/my_cover_flow.dart';
 import 'package:abc/model/data_classes/letter_data.dart';
 import 'package:abc/view_model/slider_view_model.dart';
 import 'package:flutter/material.dart';
-import 'package:tts/tts.dart';
+
 
 class AlphabetSlider extends StatelessWidget {
 
@@ -45,7 +45,7 @@ class AlphabetSlider extends StatelessWidget {
                         icon: Icon(
                             IconData(0xea26, fontFamily: 'Icons')
                         ),
-                        onPressed: () => _say(_letters[index]),
+                        onPressed: () => _viewModel.say(_letters[index]),
                       ),
                     )
                   ],
@@ -59,8 +59,6 @@ class AlphabetSlider extends StatelessWidget {
         return coverFlow;
       },
     );
-
-
   }
 
   Widget buildImageWidget(LetterData letter) {
@@ -70,9 +68,5 @@ class AlphabetSlider extends StatelessWidget {
           image: new NetworkImage(letter.imageUrl),
           placeholder: new AssetImage(LetterData.defaultImageUrl)),
     );
-  }
-
-  _say(LetterData letter) {
-    Tts.speak('${letter.letter} is for ${letter.word}');
   }
 }
