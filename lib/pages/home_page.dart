@@ -10,11 +10,13 @@ import 'package:flutter/material.dart';
 
 class MyHomePage extends StatefulWidget {
   final String title;
+  final FireBaseRepository _fireBaseRepository;
+  final CurrentLetterState _currentState;
 
-  MyHomePage({Key key, this.title}) : super(key: key);
+  MyHomePage(this._fireBaseRepository, this._currentState, {Key key, this.title}) : super(key: key);
 
   @override
-  _MyHomePageState createState() => new _MyHomePageState();
+  _MyHomePageState createState() => new _MyHomePageState(new HomePageViewModel(_fireBaseRepository, _currentState));
 }
 
 class _MyHomePageState extends State<MyHomePage>  {
@@ -24,16 +26,10 @@ class _MyHomePageState extends State<MyHomePage>  {
   Widget _currentContent;
   Widget _currentSlider;
   bool _isPortrait = true;
-  HomePageViewModel _viewModel;
-  FireBaseRepository _fireBaseRepository;
-  CurrentLetterState _currentState;
+  final HomePageViewModel _viewModel;
 
-  _MyHomePageState() {
-    _fireBaseRepository = new FireBaseRepository();
-    _currentState = CurrentLetterState();
-    _viewModel =
-        new HomePageViewModel(_fireBaseRepository, _currentState);
-  }
+
+  _MyHomePageState(this._viewModel);
 
   @override
   Widget build(BuildContext context) {
@@ -63,8 +59,8 @@ class _MyHomePageState extends State<MyHomePage>  {
         if (this._isPortrait != isPortrait || this._currentContent == null) {
           this._isPortrait = isPortrait;
           var upperAlphabet = UpperAlphabet(new UpperAlphabetViewModel(
-              _fireBaseRepository,
-              _currentState,
+              widget._fireBaseRepository,
+              widget._currentState,
               MediaQuery.of(context)));
           this._currentContent = isPortrait
               ? Container(
@@ -85,7 +81,7 @@ class _MyHomePageState extends State<MyHomePage>  {
   Widget getSlider() {
     return Expanded(
       child: AlphabetSlider(
-          new SliderViewModel(_fireBaseRepository, _currentState)),
+          new SliderViewModel(widget._fireBaseRepository, widget._currentState)),
     );
   }
 }

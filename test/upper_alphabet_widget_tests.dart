@@ -12,9 +12,9 @@ void main() {
 
   var mockViewModel = new UpperAlphabetViewModelMock();
   List<LetterData> letters = [
-    LetterData('a', 'url', 'a_word', Colors.red),
-    LetterData('b', 'url', 'b_word', Colors.green),
-    LetterData('c', 'url', 'c_word', Colors.blue),
+    LetterData('a', 'url', "", 'a_word', Colors.red),
+    LetterData('b', 'url', "", 'b_word', Colors.green),
+    LetterData('c', 'url', "", 'c_word', Colors.blue),
   ];
 
   var letterSubject = BehaviorSubject<List<LetterData>>(seedValue: letters);

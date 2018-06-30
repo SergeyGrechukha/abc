@@ -41,6 +41,8 @@ class CoverFlow extends StatefulWidget {
 
   final int initialPositionIndex;
 
+  final Function onClick;
+
   CoverFlow(
       {@required this.itemBuilder,
       this.dismissibleItems: true,
@@ -50,7 +52,8 @@ class CoverFlow extends StatefulWidget {
       this.width: 700,
       this.itemCount: 0,
       this.initialPositionIndex: 0,
-      this.currentLetterState})
+      this.currentLetterState,
+      this.onClick})
       : assert(itemBuilder != null);
 
   final CoverFlowState state = new CoverFlowState();
@@ -86,6 +89,7 @@ class CoverFlowState extends State<CoverFlow> {
 
   @override
   Widget build(BuildContext context) {
+    testMethod((int) => print(''));
     return new PageView.builder(
         onPageChanged: (value) {
           setState(() {
@@ -108,13 +112,17 @@ class CoverFlowState extends State<CoverFlow> {
 
           value = (1 - (value.abs() * .5)).clamp(0.0, 1.0);
 
-          var actualWidget = new Center(
-            child: new SizedBox(
-              height: Curves.easeOut.transform(value) * widget.height,
-              width: Curves.easeOut.transform(value) * widget.width,
-              child: child,
-            ),
+          var actualWidget = GestureDetector(
+            onTap: () => widget.onClick(index),
+            child: new Center(
+              child: new SizedBox(
+                height: Curves.easeOut.transform(value) * widget.height,
+                width: Curves.easeOut.transform(value) * widget.width,
+                child: child,
+              ),
+            )
           );
+
           if (!widget.dismissibleItems) return actualWidget;
 
           return new Dismissible(
@@ -132,4 +140,10 @@ class CoverFlowState extends State<CoverFlow> {
         },
         child: widget.itemBuilder(context, index));
   }
+
+  void testMethod(Function param0) {}
+}
+
+abstract class ClickListener{
+  onClick(int index);
 }

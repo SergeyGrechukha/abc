@@ -24,6 +24,7 @@ class AlphabetSlider extends StatelessWidget {
           dismissibleItems: false,
           itemCount: _letters.length,
           currentLetterState:  _viewModel.currentState,
+          onClick: (index) => _viewModel.onLetterChosen(context, _letters[index]),
           itemBuilder: (_, int index) {
             return Card(
               elevation: 8.0,
@@ -36,7 +37,7 @@ class AlphabetSlider extends StatelessWidget {
                         left: 0.0,
                         top: 0.0,
                         bottom: 0.0,
-                        child: buildImageWidget(_letters[index])),
+                        child: buildImageWidget(context, _letters[index])),
                     Positioned(
                       right: 0.0,
                       bottom: 0.0,
@@ -47,7 +48,7 @@ class AlphabetSlider extends StatelessWidget {
                         ),
                         onPressed: () => _say(_letters[index]),
                       ),
-                    )
+                    ),
                   ],
                 ),
               ),
@@ -63,7 +64,10 @@ class AlphabetSlider extends StatelessWidget {
 
   }
 
-  Widget buildImageWidget(LetterData letter) {
+  Widget buildImageWidget(BuildContext context, LetterData letter) {
+
+    var image = new NetworkImage(letter.imageUrl);
+
     return Center(
       child: new FadeInImage(
           fadeInDuration: Duration(milliseconds: 150),

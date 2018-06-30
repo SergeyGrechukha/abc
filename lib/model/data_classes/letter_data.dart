@@ -5,15 +5,21 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class LetterData {
   String letter;
   String imageUrl;
+  String pureImageUrl;
   String word;
   Color color;
   static final String defaultImageUrl = 'assets/images/default.png';
 
-  LetterData(this.letter, this.imageUrl, this.word, this.color);
+  LetterData(
+      this.letter, this.imageUrl, this.pureImageUrl, this.word, this.color);
 
   factory LetterData.from(DocumentSnapshot document) {
-    return new LetterData(document.data['letter'], document.data['url'],
-        document.data['word'], Color(hexToInt(document.data['color'])));
+    return new LetterData(
+        document.data['letter'],
+        document.data['url'],
+        document.data['pureImageUrl'],
+        document.data['word'],
+        Color(hexToInt(document.data['color'])));
   }
 
   static int hexToInt(String hex) {

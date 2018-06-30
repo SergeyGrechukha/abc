@@ -1,16 +1,24 @@
+import 'package:abc/model/current_letter_state.dart';
 import 'package:abc/model/firebase_repository.dart';
 import 'package:abc/pages/home_page.dart';
+import 'package:abc/pages/letter_details_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:abc/model/current_letter_state.dart';
+import 'dart:io' show Platform;
 
 void main() async {
-  var user =
-      await FirebaseAuth.instance.signInAnonymously();
+  var user = await FirebaseAuth.instance.signInAnonymously();
   runApp(new MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  final FireBaseRepository _fireBaseRepository;
+  final CurrentLetterState _currentState;
+
+  MyApp()
+      : _fireBaseRepository = new FireBaseRepository(),
+        _currentState = new CurrentLetterState();
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -18,21 +26,22 @@ class MyApp extends StatelessWidget {
       title: 'Alphabet',
       debugShowCheckedModeBanner: false,
       theme: new ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or press Run > Flutter Hot Reload in IntelliJ). Notice that the
-        // counter didn't reset back to zero; the application is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: new MyHomePage(title: 'Alphabet'),
+      home: new MyHomePage(_fireBaseRepository, _currentState, title: 'Alphabet'),
+      routes: getRoutes(),
     );
   }
+
+  getRoutes() {
+
+    return <String, WidgetBuilder>{
+      '/details': (BuildContext context) {
+        Size preferredSize = new Size.fromHeight(kToolbarHeight);
+        var screenSize = MediaQuery.of(context).size;
+        var size = new Size(screenSize.width, screenSize.height - preferredSize.height - (Platform.isAndroid ? 24 : 0));
+        return new DetailsPage(_fireBaseRepository, _currentState, size);
+      }
+    };
+  }
 }
-
-
-
-
