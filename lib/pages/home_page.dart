@@ -86,7 +86,7 @@ class _MyHomePageState extends State<MyHomePage>  {
   Widget getSlider() {
     return Expanded(
       child: AlphabetSlider(
-          new SliderViewModel(_fireBaseRepository, _currentState)),
+          new SliderViewModel(_fireBaseRepository, _currentState, MediaQuery.of(context))),
     );
   }
 }

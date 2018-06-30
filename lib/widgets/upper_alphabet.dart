@@ -44,6 +44,9 @@ class UpperAlphabet extends StatelessWidget {
           for (int i = 0; i < _letters.length; i++) {
             letterWidgets.add(buildLetterGridTile(_letters.elementAt(i), i));
           }
+          if (_letters.isNotEmpty) {
+            letterWidgets.add(abcButton(_letters.length, _letters[0].color));
+          }
           return buildContainer(context, letterWidgets);
         });
   }
@@ -76,5 +79,28 @@ class UpperAlphabet extends StatelessWidget {
 
   _onTileClicked(int i) {
     _viewModel.onNewLetterClicked(i);
+  }
+
+  Widget abcButton(int length, Color buttonColor) {
+    return GridTile(
+        child: Material(
+          color: buttonColor,
+          child: InkWell(
+            enableFeedback: true,
+            splashColor: buttonColor.withOpacity(0.2),
+            child: Container(
+              child: Center(
+                child: Text(
+                  "ABC",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 14.0
+                  ),
+                ),
+              ),
+            ),
+            onTap: () => _onTileClicked(length),
+          ),
+        ));
   }
 }

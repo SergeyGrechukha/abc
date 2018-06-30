@@ -2,7 +2,8 @@ import 'package:abc/custom/my_cover_flow.dart';
 import 'package:abc/model/data_classes/letter_data.dart';
 import 'package:abc/view_model/slider_view_model.dart';
 import 'package:flutter/material.dart';
-
+import 'package:abc/widgets/letter_card.dart';
+import 'package:abc/widgets/abc_card.dart';
 
 class AlphabetSlider extends StatelessWidget {
 
@@ -22,36 +23,10 @@ class AlphabetSlider extends StatelessWidget {
           initialPositionIndex: 0,
           viewportFraction: .8,
           dismissibleItems: false,
-          itemCount: _letters.length,
+          itemCount: _letters.length + 1,
           currentLetterState:  _viewModel.currentState,
           itemBuilder: (_, int index) {
-            return Card(
-              elevation: 8.0,
-              child: Container(
-                width: MediaQuery.of(context).size.width,
-                child: Stack(
-                  children: <Widget>[
-                    Positioned(
-                        right: 0.0,
-                        left: 0.0,
-                        top: 0.0,
-                        bottom: 0.0,
-                        child: buildImageWidget(_letters[index])),
-                    Positioned(
-                      right: 0.0,
-                      bottom: 0.0,
-                      child: IconButton(
-                        color: _letters[index].color,
-                        icon: Icon(
-                            IconData(0xea26, fontFamily: 'Icons')
-                        ),
-                        onPressed: () => _viewModel.say(_letters[index]),
-                      ),
-                    )
-                  ],
-                ),
-              ),
-            );
+            return index < _letters.length ? LetterCard(_letters[index]) : AbcCard(_letters, _viewModel.isPortrait());
           },
         );
         var state = coverFlow.state;
@@ -61,12 +36,5 @@ class AlphabetSlider extends StatelessWidget {
     );
   }
 
-  Widget buildImageWidget(LetterData letter) {
-    return Center(
-      child: new FadeInImage(
-          fadeInDuration: Duration(milliseconds: 150),
-          image: new NetworkImage(letter.imageUrl),
-          placeholder: new AssetImage(LetterData.defaultImageUrl)),
-    );
-  }
+
 }
