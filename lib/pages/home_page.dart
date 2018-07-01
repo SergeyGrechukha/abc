@@ -7,7 +7,6 @@ import 'package:abc/widgets/alphabet_slider.dart';
 import 'package:abc/widgets/upper_alphabet.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:tts/tts.dart';
 
 class MyHomePage extends StatefulWidget {
   final String title;

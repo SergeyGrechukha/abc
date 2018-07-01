@@ -4,7 +4,11 @@ import 'package:flutter/material.dart';
 
 class UpperAlphabet extends StatelessWidget {
 
-  static const ALPHABET_GRID_ID = 'alphabet_grib';
+  static const ALPHABET_GRID_ID = 'alphabet_grid';
+  static const AXIS_OFFSET = 3.0;
+  static const EDGE_VERTICAL_OFFSET = 5.0;
+  static const EDGE_HORIZONTAL_OFFSET = 10.0;
+
   final UpperAlphabetViewModel _viewModel;
 
   UpperAlphabet(this._viewModel);
@@ -14,9 +18,8 @@ class UpperAlphabet extends StatelessWidget {
     return builtAlphabet(context);
   }
 
-  GridTile buildLetterGridTile(LetterData letter, int index) {
-    return GridTile(
-        child: Material(
+  Widget buildLetterGridTile(LetterData letter, int index) {
+    return Material(
       color: letter.color,
       child: InkWell(
         enableFeedback: true,
@@ -31,7 +34,7 @@ class UpperAlphabet extends StatelessWidget {
         ),
         onTap: () => _onTileClicked(index),
       ),
-    ));
+    );
   }
 
   Widget builtAlphabet(BuildContext context) {
@@ -45,62 +48,90 @@ class UpperAlphabet extends StatelessWidget {
             letterWidgets.add(buildLetterGridTile(_letters.elementAt(i), i));
           }
           if (_letters.isNotEmpty) {
-            letterWidgets.add(abcButton(_letters.length, _letters[0].color));
+            letterWidgets.add(_abcButton(_letters.length, _letters[0].color));
           }
           return buildContainer(context, letterWidgets);
         });
   }
 
   Container buildContainer(BuildContext context, List<Widget> letters) {
+    final itemWidth =
+        _getWidgetWidth(this._viewModel.isPortrait()) / _getColumnCount();
+    final itemHeight = _getItemHeight();
+
     return Container(
-      constraints: buildBoxConstraints(context, _viewModel.isPortrait()),
+      constraints: _buildBoxConstraints(context, _viewModel.isPortrait(), itemHeight),
       child: Center(
         child: GridView.count(
           key: Key(ALPHABET_GRID_ID),
           primary: false,
-          padding: const EdgeInsets.all(10.0),
-          crossAxisSpacing: 3.0,
-          mainAxisSpacing: 3.0,
-          crossAxisCount: _viewModel.isPortrait() ? 9 : 3,
+          padding: EdgeInsets.fromLTRB(
+              EDGE_HORIZONTAL_OFFSET,
+              EDGE_VERTICAL_OFFSET,
+              EDGE_HORIZONTAL_OFFSET,
+              EDGE_VERTICAL_OFFSET
+          ),
+          crossAxisSpacing: AXIS_OFFSET,
+          mainAxisSpacing: AXIS_OFFSET,
+          childAspectRatio: (itemWidth / itemHeight),
+          crossAxisCount: _getColumnCount(),
           children: letters,
         ),
       ),
     );
   }
 
-  BoxConstraints buildBoxConstraints(BuildContext context, bool isPortrait) {
-    return BoxConstraints(
-      minWidth: this._viewModel.size().width * (isPortrait ? 1 : 0.21),
-      maxWidth: this._viewModel.size().width * (isPortrait ? 1 : 0.21),
-      maxHeight: this._viewModel.size().height * (!isPortrait ? 1 : 0.21),
-      minHeight: this._viewModel.size().height * (!isPortrait ? 1 : 0.21),
+  double _getItemHeight() {
+    if (_viewModel.letterDataSubject.value == null) {
+      return 0.0;
+    }
+    var rowsAmount =
+        _viewModel.letterDataSubject.value.length ~/ _getColumnCount();
+    var remainder =
+        _viewModel.letterDataSubject.value.length % _getColumnCount();
+    if (remainder != 0) {
+      rowsAmount++;
+    }
+    return (_getWidgetHeight(this._viewModel.isPortrait()) - EDGE_VERTICAL_OFFSET * 2) / rowsAmount
+        - (this._viewModel.isPortrait() ? 0 : AXIS_OFFSET * 1.5);
+  }
+
+  int _getColumnCount() => _viewModel.isPortrait() ? 9 : 3;
+
+  BoxConstraints _buildBoxConstraints(BuildContext context, bool isPortrait, double itemHeight) {
+    return BoxConstraints.tightForFinite(
+      width: _getWidgetWidth(isPortrait),
+      height: _getWidgetHeight(isPortrait),
     );
   }
+
+  double _getWidgetHeight(bool isPortrait) =>
+      this._viewModel.size().height * (!isPortrait ? 1 : 0.21);
+
+  double _getWidgetWidth(bool isPortrait) =>
+      this._viewModel.size().width * (isPortrait ? 1 : 0.21);
 
   _onTileClicked(int i) {
     _viewModel.onNewLetterClicked(i);
   }
 
-  Widget abcButton(int length, Color buttonColor) {
+  Widget _abcButton(int length, Color buttonColor) {
     return GridTile(
         child: Material(
-          color: buttonColor,
-          child: InkWell(
-            enableFeedback: true,
-            splashColor: buttonColor.withOpacity(0.2),
-            child: Container(
-              child: Center(
-                child: Text(
-                  "ABC",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 14.0
-                  ),
-                ),
-              ),
+      color: buttonColor,
+      child: InkWell(
+        enableFeedback: true,
+        splashColor: buttonColor.withOpacity(0.2),
+        child: Container(
+          child: Center(
+            child: Text(
+              "abc",
+              style: TextStyle(color: Colors.white, fontSize: 14.0),
             ),
-            onTap: () => _onTileClicked(length),
           ),
-        ));
+        ),
+        onTap: () => _onTileClicked(length),
+      ),
+    ));
   }
 }

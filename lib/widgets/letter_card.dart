@@ -51,7 +51,7 @@ class LetterCard extends StatelessWidget{
   }
 
   _say(LetterData letter) async {
-    CustomTts.speak('${letter.letter} is for ${letter.word}');
+    CustomTts.speak('${letter.letter}. is for ${letter.word}');
   }
 
 }

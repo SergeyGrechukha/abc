@@ -29,7 +29,7 @@ class AbcCard extends StatelessWidget{
           padding: const EdgeInsets.all(10.0),
           crossAxisSpacing: 3.0,
           mainAxisSpacing: 3.0,
-          crossAxisCount: this.isPortrait ? 5 : 6,
+          crossAxisCount: this.isPortrait ? 5 : 7,
           children: letters,
         ),
       ),
