@@ -9,13 +9,13 @@ import 'package:rxdart/rxdart.dart';
 import 'package:rxdart/subjects.dart';
 
 class HomePageViewModel extends BaseFireBaseViewModel {
-  static const Color DEFAULT_COLOR = Color(0xffc83f3f);
+  static Color DEFAULT_COLOR() => new Color(0xffc83f3f);
   final CurrentLetterState _currentState;
   BehaviorSubject _colorSubject;
 
   HomePageViewModel(FireBaseRepository fireBaseRepository, this._currentState)
       : super(fireBaseRepository) {
-    _colorSubject = BehaviorSubject<Color>();
+    _colorSubject = new BehaviorSubject<Color>();
     Observable
         .combineLatest2(
             letterDataSubject,

@@ -6,7 +6,7 @@ class FireBaseRepository {
   BehaviorSubject<List<DocumentSnapshot>> _lettersDocumentsSubject;
 
   FireBaseRepository() {
-    this._lettersDocumentsSubject = BehaviorSubject<List<DocumentSnapshot>>();
+    this._lettersDocumentsSubject = new BehaviorSubject<List<DocumentSnapshot>>();
 
         Firestore.instance.collection('letters').snapshots()
         .map((snapshot) => snapshot?.documents ?? [])

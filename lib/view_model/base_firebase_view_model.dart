@@ -8,7 +8,7 @@ abstract class BaseFireBaseViewModel {
   BehaviorSubject<List<LetterData>> letterDataSubject;
 
   BaseFireBaseViewModel(this.fireBaseRepository) {
-    letterDataSubject = BehaviorSubject<List<LetterData>>();
+    letterDataSubject = new BehaviorSubject<List<LetterData>>();
     this
         .fireBaseRepository
         .lettersDocumentsSubject

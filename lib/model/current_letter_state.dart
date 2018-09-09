@@ -6,7 +6,7 @@ class CurrentLetterState{
   BehaviorSubject<int> swipeLetterSubject;
 
   CurrentLetterState() {
-    currentLetterIndexSubject = BehaviorSubject<int>();
-    swipeLetterSubject = BehaviorSubject<int>();
+    currentLetterIndexSubject = new BehaviorSubject<int>();
+    swipeLetterSubject = new BehaviorSubject<int>();
   }
 }

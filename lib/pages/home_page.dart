@@ -19,7 +19,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage>  {
 
-  Color _appBarColor = HomePageViewModel.DEFAULT_COLOR;
+  Color _appBarColor = HomePageViewModel.DEFAULT_COLOR();
 
   Widget _currentContent;
   Widget _currentSlider;
@@ -30,7 +30,7 @@ class _MyHomePageState extends State<MyHomePage>  {
 
   _MyHomePageState() {
     _fireBaseRepository = new FireBaseRepository();
-    _currentState = CurrentLetterState();
+    _currentState = new CurrentLetterState();
     _viewModel =
         new HomePageViewModel(_fireBaseRepository, _currentState);
   }
@@ -81,8 +81,8 @@ class _MyHomePageState extends State<MyHomePage>  {
   }
 
   Widget getSlider() {
-    return Expanded(
-      child: AlphabetSlider(
+    return new Expanded(
+      child: new AlphabetSlider(
           new SliderViewModel(_fireBaseRepository, _currentState, MediaQuery.of(context))),
     );
   }
