@@ -51,7 +51,8 @@ class LetterCard extends StatelessWidget{
   }
 
   _say(LetterData letter) async {
-    CustomTts.speak('${letter.letter}. is for ${letter.word}');
+    var speakLetter = letter.letter.toLowerCase() == 'z' ? 'Zat' : letter.letter;
+    CustomTts.speak('$speakLetter. is for ${letter.word}');
   }
 
 }

@@ -1,7 +1,6 @@
 import 'package:abc/model/data_classes/letter_data.dart';
 import 'package:abc/utils/custom_tts.dart';
 import 'package:flutter/material.dart';
-import 'package:tts/tts.dart';
 
 ///Card with whole abc on it
 class AbcCard extends StatelessWidget{
@@ -62,6 +61,6 @@ class AbcCard extends StatelessWidget{
   }
 
   _onTileClicked(LetterData letter) {
-    CustomTts.speak(letter.letter);
+    CustomTts.speak(letter.letter.toLowerCase() == 'z' ? 'Zat' : letter.letter);
   }
 }

@@ -54,8 +54,6 @@ class _MyHomePageState extends State<MyHomePage>  {
     );
   }
 
-  Container buildLoadingWidget() => Container();
-
   Widget getOrientedWidget() {
     return OrientationBuilder(
       builder: (context, orientation) {
